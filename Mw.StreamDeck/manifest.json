@@ -11,8 +11,7 @@
       "Tooltip": "A counter action",
       "States": [
         {
-          "FontSize": "18",
-          "Image": "Images/Counter/Image",
+          "FontSize": "15",
           "TitleAlignment": "middle"
         }
       ]
