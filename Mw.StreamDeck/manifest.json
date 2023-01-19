@@ -1,0 +1,36 @@
+﻿{
+  "$schema": "https://raw.githubusercontent.com/GeekyEggo/SharpDeck/master/src/SharpDeck.PropertyInspector/manifest-schema.json",
+  "Name": "StreamDeck",
+  "Version": "1.0.0",
+  "Author": "mwpro",
+  "Actions": [
+    {
+      "Name": "Counter",
+      "UUID": "com.mwpro.streamdeck.helloworld",
+      "Icon": "Images/Counter/Icon",
+      "Tooltip": "A counter action",
+      "States": [
+        {
+          "FontSize": "18",
+          "Image": "Images/Counter/Image",
+          "TitleAlignment": "middle"
+        }
+      ]
+    }
+  ],
+  "Category": "Counter (.NET 6.0)",
+  "CategoryIcon": "Images/Plugin/CategoryIcon",
+  "CodePath": "MW.StreamDeck.exe",
+  "Description": "A counter plugin example",
+  "Icon": "Images/Plugin/Icon",
+  "SDKVersion": 2,
+  "Software": {
+    "MinimumVersion": "4.1"
+  },
+  "OS": [
+    {
+      "MinimumVersion": "10",
+      "Platform": "windows"
+    }
+  ]
+}

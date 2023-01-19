@@ -1,18 +1,43 @@
-﻿using OpenMacroBoard.SDK;
-using StreamDeckSharp;
+﻿using SharpDeck;
+using SharpDeck.Events.Received;
 
-var red = KeyBitmap.Create.FromRgb(237, 41, 57);
-var white = KeyBitmap.Create.FromRgb(255, 255, 255);
-var rowColors = new KeyBitmap[] { red, white, red };
+namespace MW.StreamDeck;
 
-//Open the Stream Deck device
-using (var deck = StreamDeck.OpenDevice())
+public class Program
 {
-    deck.SetBrightness(100);
+    /// <summary>
+    /// Defines the entry point of the application.
+    /// </summary>
+    /// <param name="args">The arguments.</param>
+    public static void Main(string[] args)
+    {
+#if DEBUG
+        System.Diagnostics.Debugger.Launch();
+#endif
 
-    //Send the bitmap informaton to the device
-    for (int i = 0; i < deck.Keys.Count; i++)
-        deck.SetKeyBitmap(i, rowColors[i / 5]);
+        SharpDeck.StreamDeckPlugin.Run();
+    }
+}
+[StreamDeckAction("com.mwpro.streamdeck.helloworld")]
+public class HelloWorld : StreamDeckAction
+{
+    // Methods can be overriden to intercept events received from the Stream Deck.
+    protected override Task OnKeyDown(ActionEventArgs<KeyPayload> args)
+    {
+        Console.WriteLine($"Action: {args.Action}");
+        Console.WriteLine($"Context: {args.Context}");
+        Console.WriteLine($"Device: {args.Device}");
+        Console.WriteLine($"Column: {args.Payload.Coordinates.Column}");
+        Console.WriteLine($"Row: {args.Payload.Coordinates.Row}");
+        return this.SetTitleAsync($"{DateTime.UtcNow.Second}");
+    }
 
-    Console.ReadKey();
+    protected override async Task OnKeyUp(ActionEventArgs<KeyPayload> args)
+    {
+        Console.WriteLine($"Action: {args.Action}");
+        Console.WriteLine($"Context: {args.Context}");
+        Console.WriteLine($"Device: {args.Device}");
+        Console.WriteLine($"Column: {args.Payload.Coordinates.Column}");
+        Console.WriteLine($"Row: {args.Payload.Coordinates.Row}");
+    }
 }

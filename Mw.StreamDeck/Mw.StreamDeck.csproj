@@ -5,10 +5,29 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="StreamDeckSharp" Version="3.2.0" />
+      <PackageReference Include="SharpDeck" Version="6.0.1" />
     </ItemGroup>
+
+    <!-- Install the plugin after each build - change authorName and pluginName accordingly. -->
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <OutputPath>$(APPDATA)\Elgato\StreamDeck\Plugins\com.mwpro.streamdeck.sdPlugin\</OutputPath>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- The manifest file is required by Stream Deck and provides important information. -->
+        <None Update="manifest.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <!-- Kill the Stream Deck process before each build; this allows the copy to occur. -->
+    <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <Exec Command="taskkill -f -t -im StreamDeck.exe -fi &quot;status eq running&quot;" />
+    </Target>
 
 </Project>
